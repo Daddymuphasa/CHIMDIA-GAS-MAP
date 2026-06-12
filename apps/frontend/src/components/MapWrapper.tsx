@@ -23,6 +23,8 @@ interface MapWrapperProps {
   pipelines: any[];
   onStationCreated: (station: any) => void;
   onPipelineCreated: (pipeline: any) => void;
+  onStationSelected: (station: any) => void;
+  selectedStation: any | null;
 }
 
 export default function MapWrapper(props: MapWrapperProps) {
