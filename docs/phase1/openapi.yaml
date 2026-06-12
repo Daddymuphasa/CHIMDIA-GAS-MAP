@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: GasGrid API (Phase 1)
+  version: 0.1.0
+  description: >-
+    Core APIs for GasGrid platform — authentication flows use Keycloak OIDC. All endpoints require
+    bearer tokens (JWT) issued by Keycloak and appropriate scopes/roles.
+
+servers:
+  - url: https://api.gasgrid.internal
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Station:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        geom:
+          type: object
+          description: GeoJSON Point
+        metadata:
+          type: object
+
+security:
+  - bearerAuth: []
+
+paths:
+  /stations:
+    get:
+      summary: List stations
+      parameters:
+        - in: query
+          name: bbox
+          schema:
+            type: string
+          description: bbox as minx,miny,maxx,maxy
+      responses:
+        '200':
+          description: station list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+    post:
+      summary: Create station
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+      responses:
+        '201':
+          description: created
+
+  /stations/{id}:
+    get:
+      summary: Get station by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: station
+    put:
+      summary: Update station
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+      responses:
+        '200':
+          description: updated
+
+  /pipelines:
+    get:
+      summary: List pipelines
+    post:
+      summary: Create pipeline
+
+  /sensors:
+    post:
+      summary: Register sensor
+
+  /telemetry:
+    get:
+      summary: Query telemetry
+      parameters:
+        - in: query
+          name: sensor_id
+          schema:
+            type: string
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date-time
+
+  /work-orders:
+    post:
+      summary: Create work order
+
+  /auth/oidc:
+    get:
+      summary: OIDC discovery and routes are handled by Keycloak; this endpoint proxies needed metadata
+
+---
+This is a draft OpenAPI; endpoints will be expanded with request/response examples, pagination, filtering, and RBAC scopes for Phase 2.
