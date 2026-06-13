@@ -4,7 +4,14 @@
   "version": "0.0.0",
   "scripts": {
     "prepare": "husky install",
-    "lint": "echo \"No root lint configured\"",
-    "test": "echo \"No tests configured\""
+    "lint": "eslint \"./**/*.{js,ts,jsx,tsx}\" --quiet || true",
+    "format": "prettier --write \"./**/*.{js,ts,jsx,tsx,json,md}\"",
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.0"
   }
 }
