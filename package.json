@@ -1,0 +1,10 @@
+{
+  "name": "chimidia-gas-map",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "echo \"No root lint configured\"",
+    "test": "echo \"No tests configured\""
+  }
+}
