@@ -1,0 +1,2 @@
+> git -c user.useConfigOnly=true commit --quiet --allow-empty-message --file -
+→ No staged files found.
